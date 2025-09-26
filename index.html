@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>岡山物理コンテスト カード式問題集 (改訂版)</title>
+    <title>岡山物理コンテスト カード式問題集 (コンパクト版)</title>
     <style>
         /* 全体のスタイル */
         body {
             font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif;
-            line-height: 1.6;
+            line-height: 1.5;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             background-color: #f0f2f5;
             color: #333;
         }
@@ -18,41 +18,44 @@
             max-width: 1200px;
             margin: 0 auto;
             background-color: #ffffff;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         /* ヘッダー */
         header {
             text-align: center;
-            border-bottom: 2px solid #e9ecef;
-            padding-bottom: 20px;
-            margin-bottom: 25px;
+            border-bottom: 1px solid #e9ecef;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
         h1 {
             color: #212529;
             margin: 0;
+            font-size: 1.8em;
         }
         header p {
             color: #6c757d;
             margin-top: 5px;
+            font-size: 0.9em;
         }
 
         /* カードグリッド */
         #formula-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            /* カードの最小幅を約1/3に調整 (280px -> 180px) */
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
         }
 
         /* カードのスタイル */
         .formula-card {
             background: #fff;
             border: 1px solid #dee2e6;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             overflow: hidden;
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -60,33 +63,35 @@
             flex-direction: column;
         }
         .formula-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         }
         .formula-card.active {
             border: 2px solid #e67e22;
-            box-shadow: 0 0 10px rgba(230, 126, 34, 0.5);
+            box-shadow: 0 0 8px rgba(230, 126, 34, 0.4);
         }
 
         /* カード上部 (コンテンツ) */
         .card-content {
-            padding: 20px;
+            /* パディングと最小高さを調整 */
+            padding: 10px;
             flex-grow: 1;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 180px;
+            min-height: 100px;
         }
 
         /* 星評価 */
         .stars {
-            font-size: 22px;
+            /* サイズと位置を調整 */
+            font-size: 12px;
             color: #f1c40f;
             position: absolute;
-            top: 15px;
-            left: 20px;
-            letter-spacing: 2px;
+            top: 8px;
+            left: 10px;
+            letter-spacing: 1px;
         }
         .stars .dim {
             color: #ced4da;
@@ -95,19 +100,22 @@
         /* 公式表示 */
         .formula-display {
             text-align: center;
-            font-size: 26px;
+            /* フォントサイズを調整 */
+            font-size: 16px;
             font-weight: bold;
             color: #343a40;
-            margin: 25px 0 15px 0;
-            padding: 10px;
+            margin: 15px 0 10px 0;
+            padding: 5px;
         }
 
         /* 補足情報 */
         .formula-info {
-            font-size: 13px;
+            /* フォントサイズを調整 */
+            font-size: 10px;
             color: #868e96;
             text-align: center;
-            padding: 0 10px;
+            padding: 0 5px;
+            line-height: 1.3;
         }
 
         /* カード下部 (フッター) */
@@ -115,48 +123,54 @@
             background-color: #3498db;
             color: white;
             text-align: center;
-            padding: 12px;
-            font-size: 16px;
+            /* パディングとフォントサイズを調整 */
+            padding: 8px;
+            font-size: 12px;
             font-weight: 600;
         }
         
         /* 問題表示エリア */
         #problem-container {
-            margin-top: 20px;
+            margin-top: 15px;
         }
         h2 {
             color: #495057;
             border-bottom: 1px solid #dee2e6;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
+            font-size: 1.4em;
         }
         .problem-card {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
-            border-left: 5px solid #3498db;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
             animation: fadeIn 0.5s ease;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* 問題カード内のテキストサイズを調整 */
         .problem-card h3 {
             margin-top: 0;
             color: #212529;
+            font-size: 1.1em;
+        }
+        .problem-card .category, .problem-card p {
+            font-size: 0.85em;
         }
         .problem-card .category {
             font-weight: bold;
             color: #6c757d;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: block;
-            font-size: 0.9em;
         }
         .problem-card .answer {
             background-color: #eaf5ff;
             border: 1px solid #b8daff;
-            padding: 10px;
+            padding: 8px;
             border-radius: 4px;
             font-weight: bold;
             color: #004085;
@@ -169,6 +183,10 @@
         @media (max-width: 600px) {
             body { padding: 10px; }
             .container { padding: 15px; }
+            #formula-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -176,7 +194,7 @@
 
     <div class="container">
         <header>
-            <h1>岡山物理コンテスト カード式問題集 (改訂版)</h1>
+            <h1>岡山物理コンテスト カード式問題集</h1>
             <p>公式カードをクリックして、関連する問題に絞り込もう！</p>
         </header>
 
@@ -216,7 +234,7 @@
         };
 
         const problems = [
-            // 2023年 問題A
+            // ここに以前の全問題データが入ります（長いため省略）
             { year: 2023, type: 'A', q_num: 1, formulas: ['運動学・グラフ'], content: '図1(速度-時間グラフ)と図2(レースコース図)を見て、時刻0sでのレースカーの位置を①～⑤から選べ。', answer: '② (スタート/ゴールライン)', steps: 'グラフのt=0sの点を探す → v=0に近いことを確認する → コース図で最も速度が遅いスタート地点を選ぶ。', concept: 'レースのスタート時は速度がほぼ0である。v-tグラフの縦軸が速度を表すことから、t=0での速度を読み取り、コース上の位置を特定する。'},
             { year: 2023, type: 'A', q_num: 2, formulas: ['フックの法則', '力のつり合い'], content: '自然長が等しいばね1と2を直列に繋ぎ、ばね1の伸びがばね2の2倍になった。ばね1がばね2を引く力は、ばね2がばね1を引く力の(ア)倍か。ばね1のばね定数は、ばね2の(イ)倍か。', answer: '③ (ア)1, (イ)1/2', steps: '直列接続では力が等しいことを理解する → 各ばねでフックの法則 F=kx を立てる → 2つの式を連立してkの比を求める。', concept: '作用・反作用の法則により直列ばねでは張力が等しくなる。この条件とフックの法則を用いて、伸びの比からばね定数の比を逆算する。'},
             { year: 2023, type: 'A', q_num: 3, formulas: ['円運動・遠心力'], content: '電車の車輪がカーブを曲がる際の回転数の差を吸収できる形状を、断面図の①～④から選べ。', answer: '③', steps: 'カーブで遠心力が働き車輪が外側にずれる → 車輪の半径が接地点で変わる形状を探す → 外側の半径が大きく、内側の半径が小さくなる形状を選ぶ。', concept: 'カーブの内外輪差を吸収するため、車輪の接地面が円錐状になっている。遠心力で車体が外側にずれると、外輪は半径の大きい部分で、内輪は半径の小さい部分でレールに接し、回転差が生まれる。'},
@@ -267,6 +285,7 @@
             { year: 2024, type: 'B', q_num: 11, formulas: ['現代物理・宇宙'], content: 'ハッブルの測定結果(グラフ)から、宇宙の誕生が約何億年前かを求めよ。', answer: '20億年前', steps: 'グラフの傾き(ハッブル定数 H₀)を読み取る → 宇宙年齢 T ≒ 1/H₀ を計算する → 単位を年に変換する。', concept: '宇宙が一様膨張していると仮定すると、その膨張率（ハッブル定数）の逆数が、膨張が始まってからの時間（宇宙年齢）に相当する。'},
             { year: 2024, type: 'B', q_num: 12, formulas: ['運動学・グラフ', '地球科学'], content: '宇宙望遠鏡で観測する理由として最も適切なものを①～④から選べ。', answer: '① 宇宙から観測すると大気の揺らぎの影響を受けないので、高い解像度で観測できるため。', steps: '地上での観測の限界を考える → 大気の揺らぎ(シーイング)が解像度を低下させる最大の要因である → 宇宙空間ではこの影響がない。', concept: '地上と宇宙の観測環境の最大の違いは「大気の有無」である。大気が天体観測に与える様々な悪影響（揺らぎ、吸収、天候）がなくなることが宇宙望遠鏡の最大の利点である。'},
         ];
+
 
         // --- DOM要素 ---
         const formulaGrid = document.getElementById('formula-grid');
